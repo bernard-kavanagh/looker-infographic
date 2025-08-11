@@ -9,25 +9,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 320px;
-            max-height: 350px;
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            height: 100%;
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-                max-height: 400px;
-            }
+        .card:hover:not(.no-hover) {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
         .flowchart-arrow {
             position: relative;
@@ -40,39 +38,26 @@
             color: #0582CA;
             font-weight: bold;
         }
-        .flowchart-arrow::after {
-            content: '\2193';
-        }
-        .card {
-            background-color: white;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            height: 100%;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }
-        .kpi-value {
-            font-weight: 900;
-            color: #006494;
-        }
+        .flowchart-arrow::after { content: '\2193'; }
         .chat-bubble-user {
             background-color: #0582CA;
             color: white;
             border-radius: 1rem 1rem 0 1rem;
-            max-width: 80%;
-            align-self: flex-end;
         }
         .chat-bubble-ai {
             background-color: #e5e7eb;
             color: #1f2937;
             border-radius: 1rem 1rem 1rem 0;
-            max-width: 80%;
-            align-self: flex-start;
         }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #0582CA;
+            animation: spin 1s ease infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="text-gray-800">
@@ -85,6 +70,7 @@
                     <a href="#foundation" class="text-gray-600 hover:text-[#00A6FB]">Foundation</a>
                     <a href="#workflow" class="text-gray-600 hover:text-[#00A6FB]">Workflow</a>
                     <a href="#ai" class="text-gray-600 hover:text-[#00A6FB]">AI Capabilities</a>
+                    <a href="#demo" class="text-gray-600 hover:text-[#00A6FB]">Demo</a>
                     <a href="#stack" class="text-gray-600 hover:text-[#00A6FB]">Stack</a>
                     <a href="#ecosystem" class="text-gray-600 hover:text-[#00A6FB]">Ecosystem</a>
                 </div>
@@ -101,40 +87,28 @@
 
         <section id="foundation" class="mb-16 scroll-mt-24">
             <h2 class="text-3xl font-bold text-center mb-8 text-[#006494]">The LookML Foundation: Analytics as Code</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div class="card">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div class="card no-hover">
                     <h3 class="text-xl font-bold mb-3 text-[#0582CA]">What is LookML?</h3>
                     <p class="mb-4">LookML is the heart of Looker. It's not a visualization language, but a **modeling language** used to define business logic, metrics, and data relationships. It creates a reusable semantic layer that acts as a single source of truth for the entire organization.</p>
                     <div class="bg-[#f0f2f5] p-4 rounded-lg">
-                        <p class="font-mono text-sm"><span class="text-[#00A6FB] font-bold">measure:</span> total_revenue {</p>
-                        <p class="font-mono text-sm pl-4"><span class="text-[#00A6FB]">type:</span> sum</p>
-                        <p class="font-mono text-sm pl-4"><span class="text-[#00A6FB]">sql:</span> ${TABLE}.sale_price ;; </p>
-                        <p class="font-mono text-sm pl-4"><span class="text-[#00A6FB]">description:</span> "Total revenue from all sales."</p>
-                        <p class="font-mono text-sm">}</p>
+                        <pre class="font-mono text-sm"><code><span class="text-[#00A6FB] font-bold">measure:</span> total_revenue {
+  <span class="text-[#00A6FB]">type:</span> sum
+  <span class="text-[#00A6FB]">sql:</span> ${TABLE}.sale_price ;;
+  <span class="text-[#00A6FB]">description:</span> "Total revenue from all sales."
+}</code></pre>
                     </div>
-                    <p class="mt-4">By defining metrics once in code, Looker ensures everyone, from the CEO to a data analyst, uses the exact same calculation, eliminating data discrepancies.</p>
+                    <p class="mt-4">By defining metrics once in code, Looker ensures everyone uses the exact same calculation, eliminating data discrepancies.</p>
                 </div>
-                <div class="card">
+                <div class="card no-hover">
                     <h3 class="text-xl font-bold mb-3 text-center text-[#0582CA]">The Abstraction Layer</h3>
                     <p class="text-center mb-4">LookML separates complex SQL logic from the end-user, providing a simple, governed interface for data exploration.</p>
                     <div class="space-y-2">
-                        <div class="bg-gray-100 p-4 rounded-lg text-center">
-                            <span class="text-4xl">🗃️</span>
-                            <p class="font-bold mt-2">Your Data Warehouse</p>
-                            <p class="text-sm text-gray-600">(BigQuery, Snowflake, etc.)</p>
-                        </div>
+                        <div class="bg-gray-100 p-4 rounded-lg text-center"><span class="text-4xl">🗃️</span><p class="font-bold mt-2">Your Data Warehouse</p><p class="text-sm text-gray-600">(BigQuery, Snowflake, etc.)</p></div>
                         <div class="flowchart-arrow"></div>
-                        <div class="bg-[#006494] text-white p-4 rounded-lg text-center">
-                            <span class="text-4xl">📝</span>
-                            <p class="font-bold mt-2">LookML Semantic Model</p>
-                            <p class="text-sm text-gray-200">(Joins, Metrics, Business Logic)</p>
-                        </div>
+                        <div class="bg-[#006494] text-white p-4 rounded-lg text-center"><span class="text-4xl">📝</span><p class="font-bold mt-2">LookML Semantic Model</p><p class="text-sm text-gray-200">(Joins, Metrics, Business Logic)</p></div>
                         <div class="flowchart-arrow"></div>
-                        <div class="bg-gray-100 p-4 rounded-lg text-center">
-                            <span class="text-4xl">🖱️</span>
-                            <p class="font-bold mt-2">User "Explore" Interface</p>
-                            <p class="text-sm text-gray-600">(Point-and-click self-service)</p>
-                        </div>
+                        <div class="bg-gray-100 p-4 rounded-lg text-center"><span class="text-4xl">🖱️</span><p class="font-bold mt-2">User "Explore" Interface</p><p class="text-sm text-gray-600">(Point-and-click self-service)</p></div>
                     </div>
                 </div>
             </div>
@@ -142,98 +116,79 @@
 
         <section id="workflow" class="mb-16 scroll-mt-24">
             <h2 class="text-3xl font-bold text-center mb-8 text-[#006494]">The Governed Workflow: From Dev to Deploy</h2>
-            <p class="text-center max-w-3xl mx-auto mb-8">Looker enforces a robust, Git-native development lifecycle, ensuring all changes are isolated, reviewed, and deployed safely.</p>
+             <p class="text-center max-w-3xl mx-auto mb-8">Looker enforces a robust, Git-native development lifecycle, ensuring all changes are isolated, reviewed, and deployed safely.</p>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-center">
-                <div class="card flex flex-col items-center justify-center">
-                    <div class="text-4xl mb-2">👨‍💻</div>
-                    <h4 class="font-bold">1. Dev Mode</h4>
-                    <p class="text-sm">Analyst enters an isolated Git branch.</p>
-                </div>
+                <div class="card flex flex-col items-center justify-center"><div class="text-4xl mb-2">👨‍💻</div><h4 class="font-bold">1. Dev Mode</h4><p class="text-sm">Analyst enters an isolated Git branch.</p></div>
                 <div class="flex items-center justify-center text-4xl text-[#0582CA] transform md:rotate-0 rotate-90">→</div>
-                <div class="card flex flex-col items-center justify-center">
-                    <div class="text-4xl mb-2">✅</div>
-                    <h4 class="font-bold">2. Validate</h4>
-                    <p class="text-sm">Code is tested with the LookML Validator.</p>
-                </div>
+                <div class="card flex flex-col items-center justify-center"><div class="text-4xl mb-2">✅</div><h4 class="font-bold">2. Validate</h4><p class="text-sm">Code is tested with the LookML Validator.</p></div>
                 <div class="flex items-center justify-center text-4xl text-[#0582CA] transform md:rotate-0 rotate-90">→</div>
-                 <div class="card flex flex-col items-center justify-center">
-                    <div class="text-4xl mb-2">📤</div>
-                    <h4 class="font-bold">3. Pull Request</h4>
-                    <p class="text-sm">Changes submitted for peer review.</p>
-                </div>
+                <div class="card flex flex-col items-center justify-center"><div class="text-4xl mb-2">📤</div><h4 class="font-bold">3. Pull Request</h4><p class="text-sm">Changes submitted for peer review.</p></div>
             </div>
              <div class="flex justify-center my-4"><div class="flowchart-arrow"></div></div>
-             <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-center md:flex-row-reverse">
-                <div class="card flex flex-col items-center justify-center">
-                    <div class="text-4xl mb-2">🚀</div>
-                    <h4 class="font-bold">5. Deploy</h4>
-                    <p class="text-sm">Changes are live for all business users.</p>
-                </div>
+             <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-center">
+                <div class="card flex flex-col items-center justify-center ml-auto"><div class="text-4xl mb-2">🚀</div><h4 class="font-bold">5. Deploy</h4><p class="text-sm">Changes are live for all business users.</p></div>
                  <div class="flex items-center justify-center text-4xl text-[#0582CA] transform md:rotate-180 rotate-90">→</div>
-                <div class="card flex flex-col items-center justify-center">
-                    <div class="text-4xl mb-2">🤝</div>
-                    <h4 class="font-bold">4. Merge</h4>
-                    <p class="text-sm">Approved code is merged to production.</p>
-                </div>
+                <div class="card flex flex-col items-center justify-center mr-auto"><div class="text-4xl mb-2">🤝</div><h4 class="font-bold">4. Merge</h4><p class="text-sm">Approved code is merged to production.</p></div>
             </div>
         </section>
         
         <section id="ai" class="mb-16 scroll-mt-24">
             <h2 class="text-3xl font-bold text-center mb-8 text-[#006494]">The AI-Powered Experience</h2>
-            <p class="text-center max-w-3xl mx-auto mb-8">Powered by Gemini, Looker integrates generative AI across the platform to democratize analytics and accelerate developer workflows.</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="card">
-                    <h3 class="text-xl font-bold mb-3 text-[#0582CA]">Conversational Analytics</h3>
-                    <p class="mb-4">Business users can ask questions in natural language. Looker translates the request into a precise query against the governed LookML model, returning answers as data and visualizations.</p>
-                    <div class="bg-gray-100 p-4 rounded-lg flex flex-col space-y-3">
-                        <div class="p-3 chat-bubble-user">
-                            Show me sales by product category in Sweden for the last quarter
+            <p class="text-center max-w-3xl mx-auto mb-8">Powered by Gemini, Looker integrates generative AI across the platform to democratize analytics and accelerate developer workflows. Try it yourself!</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div class="card no-hover">
+                    <h3 class="text-xl font-bold mb-3 text-[#0582CA]">✨ Conversational Analytics</h3>
+                    <p class="mb-4">Ask a business question in natural language. The AI will translate it into an answer based on the governed semantic model.</p>
+                    <div class="bg-gray-100 p-4 rounded-lg h-96 flex flex-col">
+                        <div id="chat-history" class="flex-grow space-y-3 overflow-y-auto mb-4 pr-2">
+                           <div class="p-3 chat-bubble-ai max-w-[80%] self-start">Hi! How can I help you analyze your business data today?</div>
                         </div>
-                        <div class="p-3 chat-bubble-ai">
-                            <p class="font-semibold mb-2">Here are the sales by category for Q2 2025:</p>
-                            <div class="bg-white rounded-md p-2">
-                                <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
-                                    <div class="bg-[#00A6FB] h-4 rounded-full" style="width: 75%"></div>
-                                    <p class="text-xs text-left pl-1">Electronics</p>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
-                                    <div class="bg-[#00A6FB] h-4 rounded-full" style="width: 45%"></div>
-                                    <p class="text-xs text-left pl-1">Home Goods</p>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-4">
-                                    <div class="bg-[#00A6FB] h-4 rounded-full" style="width: 60%"></div>
-                                    <p class="text-xs text-left pl-1">Apparel</p>
-                                </div>
+                        <form id="chat-form" class="flex items-center space-x-2">
+                            <input id="chat-input" type="text" placeholder="Ask a question..." class="flex-grow p-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-[#00A6FB]">
+                            <button type="submit" class="bg-[#0582CA] hover:bg-[#00A6FB] text-white rounded-full p-3 flex items-center justify-center">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card no-hover">
+                    <h3 class="text-xl font-bold mb-3 text-[#0582CA]">✨ AI-Assisted Development</h3>
+                    <p class="mb-4">Accelerate development by automatically generating LookML from a natural language prompt.</p>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="lookml-prompt" class="font-bold">Describe a metric you need:</label>
+                            <textarea id="lookml-prompt" rows="3" class="w-full mt-2 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A6FB]" placeholder="e.g., A count of unique customers who made a purchase in the last 30 days"></textarea>
+                            <button id="generate-lookml" class="mt-2 w-full bg-[#0582CA] hover:bg-[#00A6FB] text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center">
+                                Generate LookML
+                            </button>
+                        </div>
+                        <div id="lookml-output-container" class="hidden">
+                            <h4 class="font-bold">Generated LookML:</h4>
+                             <div class="relative bg-[#2d3748] text-white p-4 rounded-lg mt-2">
+                                <button id="copy-lookml" class="absolute top-2 right-2 bg-gray-600 hover:bg-gray-500 text-white text-xs font-bold py-1 px-2 rounded">Copy</button>
+                                <pre><code id="lookml-output" class="language-lookml"></code></pre>
                             </div>
+                        </div>
+                         <div id="lookml-loader" class="hidden justify-center items-center py-8">
+                            <div class="spinner"></div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <h3 class="text-xl font-bold mb-3 text-[#0582CA]">AI-Assisted Insights & Development</h3>
-                    <p class="mb-4">AI helps at every stage, from building the model to analyzing the results.</p>
-                    <div class="space-y-4">
-                        <div class="flex items-start space-x-4">
-                            <div class="text-4xl text-[#00A6FB]">📈</div>
-                            <div>
-                                <h4 class="font-bold">Automated Forecasting</h4>
-                                <p>Add one-click forecasts to any time-series visualization to project future trends and performance based on historical data.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="text-4xl text-[#00A6FB]">💡</div>
-                            <div>
-                                <h4 class="font-bold">Automated Insights</h4>
-                                <p>Let AI analyze the data behind any chart to automatically surface key drivers, period-over-period changes, and anomalies you might have missed.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="text-4xl text-[#00A6FB]">👨‍💻</div>
-                            <div>
-                                <h4 class="font-bold">LookML Generation</h4>
-                                <p>Accelerate development by automatically generating a baseline LookML model from your database schema, or create new calculations from natural language prompts.</p>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </section>
+
+        <section id="demo" class="mb-16 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-center mb-8 text-[#006494]">See It In Action: Looker Product Demo</h2>
+            <div class="card no-hover p-4">
+                <div class="relative overflow-hidden" style="padding-top: 56.25%;">
+                    <iframe
+                        class="absolute top-0 left-0 w-full h-full"
+                        src="https://www.youtube.com/embed/2rUptnsR6ng"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
                 </div>
             </div>
         </section>
@@ -241,7 +196,7 @@
         <section id="stack" class="mb-16 scroll-mt-24">
             <h2 class="text-3xl font-bold text-center mb-8 text-[#006494]">The Modern Data Stack in Action</h2>
             <p class="text-center max-w-3xl mx-auto mb-8">Looker serves as the central semantic hub, bringing governance and consistency to a diverse ecosystem of transformation tools and consumption endpoints.</p>
-            <div class="card md:col-span-2 p-6">
+            <div class="card no-hover md:col-span-2 p-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center items-center">
                     <div class="space-y-2">
                         <div class="bg-gray-100 p-4 rounded-lg">
@@ -272,8 +227,8 @@
                         <div class="bg-gray-100 p-3 rounded-lg">
                             <p class="font-bold">Looker Studio Pro</p>
                         </div>
-                         <div class="bg-gray-100 p-3 rounded-lg">
-                            <p class="font-bold">Conversational AI</p>
+                        <div class="bg-gray-100 p-3 rounded-lg">
+                            <p class="font-bold">Tableau / Power BI</p>
                         </div>
                         <div class="bg-gray-100 p-3 rounded-lg">
                             <p class="font-bold">API & Embedded</p>
@@ -300,7 +255,6 @@
                 </div>
              </div>
         </section>
-
     </main>
 
     <footer class="bg-white mt-16 py-8">
@@ -310,7 +264,139 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatForm = document.getElementById('chat-form');
+            const chatInput = document.getElementById('chat-input');
+            const chatHistory = document.getElementById('chat-history');
+            
+            const generateLookmlBtn = document.getElementById('generate-lookml');
+            const lookmlPrompt = document.getElementById('lookml-prompt');
+            const lookmlOutputContainer = document.getElementById('lookml-output-container');
+            const lookmlOutput = document.getElementById('lookml-output');
+            const copyLookmlBtn = document.getElementById('copy-lookml');
+            const lookmlLoader = document.getElementById('lookml-loader');
+
+            const apiKey = ""; // Canvas will provide the key
+
+            /**
+             * Calls the Gemini API with a given prompt.
+             * @param {string} prompt The user's prompt.
+             * @param {number} maxRetries Maximum number of retries for the API call.
+             * @returns {Promise<string>} The generated text from the API.
+             */
+            async function callGemini(prompt, maxRetries = 3) {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{ role: "user", parts: [{ text: prompt }] }]
+                };
+
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`API request failed with status ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            return result.candidates[0].content.parts[0].text;
+                        } else {
+                           throw new Error("Invalid API response structure");
+                        }
+                    } catch (error) {
+                        console.error(`Attempt ${i + 1} failed:`, error);
+                        if (i === maxRetries - 1) {
+                            return "Sorry, I'm having trouble connecting to the AI. Please try again later.";
+                        }
+                        await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, i))); // Exponential backoff
+                    }
+                }
+            }
+            
+            function addMessageToChat(message, sender) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('p-3', 'max-w-[80%]', 'rounded-lg', 'break-words');
+                bubble.textContent = message;
+                if (sender === 'user') {
+                    bubble.classList.add('chat-bubble-user', 'self-end');
+                } else {
+                    bubble.classList.add('chat-bubble-ai', 'self-start');
+                     if(message.includes('spinner')) {
+                        bubble.innerHTML = '<div class="spinner"></div>';
+                    }
+                }
+                chatHistory.appendChild(bubble);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            }
+
+            chatForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const userMessage = chatInput.value.trim();
+                if (!userMessage) return;
+                
+                addMessageToChat(userMessage, 'user');
+                chatInput.value = '';
+                addMessageToChat('spinner', 'ai');
+
+                const prompt = `You are a helpful business intelligence assistant built into the Looker platform. A user is asking a question about their data. Provide a concise, helpful, and friendly answer. User question: "${userMessage}"`;
+                const aiResponse = await callGemini(prompt);
+                
+                // Remove spinner
+                chatHistory.removeChild(chatHistory.lastChild);
+                addMessageToChat(aiResponse, 'ai');
+            });
+            
+            generateLookmlBtn.addEventListener('click', async function() {
+                const userPrompt = lookmlPrompt.value.trim();
+                if (!userPrompt) {
+                    alert('Please describe the metric you want to generate.');
+                    return;
+                }
+
+                generateLookmlBtn.disabled = true;
+                generateLookmlBtn.innerHTML = '<div class="spinner w-6 h-6 border-2"></div>';
+                lookmlOutputContainer.classList.add('hidden');
+                lookmlLoader.classList.remove('hidden');
+                lookmlLoader.classList.add('flex');
+                
+                const prompt = `You are an expert LookML developer. Based on the following request, write a valid LookML measure or dimension. Only respond with the LookML code itself, without any extra explanation, backticks, or "lookml" language specifier. Request: "${userPrompt}"`;
+                
+                const generatedCode = await callGemini(prompt);
+                
+                lookmlOutput.textContent = generatedCode.trim();
+                
+                lookmlLoader.classList.add('hidden');
+                lookmlLoader.classList.remove('flex');
+                lookmlOutputContainer.classList.remove('hidden');
+                generateLookmlBtn.disabled = false;
+                generateLookmlBtn.textContent = 'Generate LookML';
+            });
+
+            copyLookmlBtn.addEventListener('click', function() {
+                const codeToCopy = lookmlOutput.textContent;
+                navigator.clipboard.writeText(codeToCopy).then(() => {
+                    copyLookmlBtn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyLookmlBtn.textContent = 'Copy';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
-```
+
+
 
